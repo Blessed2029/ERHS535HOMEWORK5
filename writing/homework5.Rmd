@@ -62,7 +62,7 @@ baltimore <- baltimore %>%
     year_month = floor_date(reported_date, unit = "month")
   )
 
-# Monthly homicide counts
+## Monthly homicide counts
 monthly_counts <- baltimore %>%
   count(year_month)
 
