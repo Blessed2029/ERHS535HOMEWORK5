@@ -44,7 +44,7 @@ clean_homicides <- homicides %>%
 
 head(clean_homicides)
 
-## ** Summary Statistics**
+## ** Summary Statistics **
 summary(clean_homicides$victim_age)
 table(clean_homicides$victim_race)
 table(clean_homicides$victim_sex)
