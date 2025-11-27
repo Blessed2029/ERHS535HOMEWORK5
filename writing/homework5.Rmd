@@ -50,8 +50,8 @@ table(clean_homicides$victim_race)
 table(clean_homicides$victim_sex)
 
 
-
 ## **Choice 2 Plot — Victim Age Distribution by Sex**
+
 baltimore <- homicides %>%
   dplyr::filter(city == "Baltimore")
 
