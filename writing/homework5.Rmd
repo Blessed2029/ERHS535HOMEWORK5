@@ -13,6 +13,7 @@ The goal is to clean the data, summarize key patterns, and create a meaningful v
 
 
 ```{r setup, include=TRUE}
+
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 
 library(tidyverse)
