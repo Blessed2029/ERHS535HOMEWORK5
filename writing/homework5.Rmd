@@ -55,7 +55,7 @@ table(clean_homicides$victim_sex)
 baltimore <- homicides %>%
   dplyr::filter(city == "Baltimore")
 
-# Convert and create year-month field
+## Convert and create year-month field
 baltimore <- baltimore %>%
   mutate(
     reported_date = ymd(reported_date),
