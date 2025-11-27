@@ -76,6 +76,7 @@ monthly_counts <- monthly_counts %>%
   )
 
 ###  ggplot base: bars + seasonal color
+### Add seasonal trend line + Freddie Gray reference
 ggplot(monthly_counts, aes(x = year_month, y = n, fill = season)) +
   geom_col(width = 25) +
   scale_fill_manual(values = c("Summer" = "grey70", "Winter" = "skyblue3")) +
