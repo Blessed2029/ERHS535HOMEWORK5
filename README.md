@@ -2,7 +2,6 @@
 ### Homicide Analysis in Baltimore, MD  
 **Author:** Esther Alorkpa  
 **Course:** ERHS 535 — R Programming
-
 **Instructor:** Dr. Brooke Anderson  
 **Due Date:** December 1, 2025  
 
