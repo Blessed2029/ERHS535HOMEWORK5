@@ -1,25 +1,101 @@
----
-title: "HOMEWORK5"
-author: "Esther Alorkpa"
-date: "2025-11-12"
-output: word_document
----
 
-```{r}
-dir.create("data")
+title: "Homework 5 — Homicide Analysis"
+author: "Esther Alorkpa"
+date: "2025-11-26"
+output: word_document
+
+
+### **Choice 2 – Data Cleaning and Visualization**
+
+This homework analyzes U.S. homicide data from the Washington Post investigation.  
+The goal is to clean the data, summarize key patterns, and create a meaningful visualization.
+
+
+
+```{r setup, include=TRUE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+
+library(tidyverse)
+library(lubridate)
+library(dplyr)
+library(ggplot2)
 
 download.file(
   url = "https://raw.githubusercontent.com/washingtonpost/data-homicides/master/homicide-data.csv",
-  destfile = "C:/Users/dodda/Downloads/week_2_data-master/ERHS535HOMEWORK5/data/homicide-data.csv",
+  destfile = "data/homicide-data.csv",
   mode = "wb"
 )
 
-list.files("data")
+# Read the dataset
+homicides <- read.csv("data/homicide-data.csv")
 
-homicides <- read.csv("../data/homicide-data.csv")
+# Preview
 head(homicides)
 
+## ** Data Cleaning **
+## Remove rows with missing victim race or age and ensure valid categories.
 
+clean_homicides <- homicides %>%
+  filter(!is.na(victim_race),
+         !is.na(victim_age),
+         victim_age > 0)
+
+head(clean_homicides)
+
+## ** Summary Statistics**
+summary(clean_homicides$victim_age)
+table(clean_homicides$victim_race)
+table(clean_homicides$victim_sex)
+
+
+
+## **Choice 2 Plot — Victim Age Distribution by Sex**
+baltimore <- homicides %>%
+  dplyr::filter(city == "Baltimore")
+
+# Convert and create year-month field
+baltimore <- baltimore %>%
+  mutate(
+    reported_date = ymd(reported_date),
+    year_month = floor_date(reported_date, unit = "month")
+  )
+
+# Monthly homicide counts
+monthly_counts <- baltimore %>%
+  count(year_month)
+
+monthly_counts <- monthly_counts %>%
+  mutate(
+    month = month(year_month),
+    season = case_when(
+      month %in% 5:10 ~ "Summer",
+      TRUE ~ "Winter"
+    )
+  )
+
+## ggplot
+
+ggplot(monthly_counts, aes(x = year_month, y = n, fill = season)) +
+  geom_col(width = 25) +
+  scale_fill_manual(values = c("Summer" = "grey70", "Winter" = "skyblue3")) +
+  geom_smooth(color = "blue3", se = FALSE, size = 0.9) +
+  geom_vline(xintercept = as.numeric(ymd("2015-04-12")), color = "red",
+            size = 1.2, linetype = "dashed") +
+  annotate("text", x = ymd("2015-04-12") + 300, y = 32,
+           label = "Arrest of\nFreddie Gray", color = "white", size = 4) +
+  labs(title = "Homicides in Baltimore, MD",
+       x = "Date", y = "Monthly homicides", fill = "") +
+  theme_bw() +
+  theme(
+    panel.background = element_rect(fill = "grey20"),
+    panel.grid = element_line(color = "grey40"),
+    plot.background = element_rect(fill = "grey20"),
+    text = element_text(color = "white"),
+    axis.text = element_text(color = "white"),
+    legend.position = "bottom",
+    legend.background = element_rect(fill = "grey20"),
+    legend.text = element_text(color = "white")
+  )
 
 ```
 
@@ -29,16 +105,24 @@ head(homicides)
 
 
 
-```{r cars}
-summary(cars)
+
+
+
+
+
+
+
+
+
+
+```{r}
+
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+
+```{r}
+
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
