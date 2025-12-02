@@ -1,7 +1,12 @@
+---
+output:
+  word_document: default
+  html_document: default
+---
 
 title: "Homework 5 – Homicide Analysis"
 author: "Esther Alorkpa"
-date: "2025-11-26"
+Due date: "2025-12-01"
 output: word_document
 
 
@@ -31,7 +36,6 @@ download.file(
 # Read the dataset
 homicides <- read.csv("data/homicide-data.csv")
 
-# Preview
 head(homicides)
 
 ## ** Data cleaning **
@@ -119,14 +123,8 @@ ggplot(monthly_counts, aes(x = year_month, y = n, fill = season)) +
 
 
 
-```{r}
-
-```
 
 
 
 
-```{r}
-
-```
 
