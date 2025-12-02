@@ -17,10 +17,10 @@ The goal is to clean the data, summarize key patterns, and create a meaningful v
 
 
 
-```{r setup, include=TRUE}
+```{r finalplot, fig.width=12, fig.asp=0.35}
 
-knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
-
+knitr::opts_chunk$set(fig.width = 12, fig.height = 5,
+                      echo = TRUE, message = FALSE, warning = FALSE)
 library(tidyverse)
 library(lubridate)
 library(dplyr)
@@ -83,28 +83,32 @@ monthly_counts <- monthly_counts %>%
 ### Add seasonal trend line + Freddie Gray reference
 ### Add labels, theme, and styling
 
-ggplot(monthly_counts, aes(x = year_month, y = n, fill = season)) +
+ggplot(monthly_counts, aes(year_month, n, fill = season)) +
   geom_col(width = 25) +
-  scale_fill_manual(values = c("Summer" = "grey70", "Winter" = "skyblue3")) +
-  geom_smooth(color = "blue3", se = FALSE, size = 0.9) +
-  geom_vline(xintercept = as.numeric(ymd("2015-04-12")), color = "red",
-            size = 1.2, linetype = "dashed") +
-  annotate("text", x = ymd("2015-04-12") + 300, y = 32,
-           label = "Arrest of\nFreddie Gray", color = "white", size = 4) +
+  scale_fill_manual(values = c(Summer = "grey70", Winter = "lightblue")) +
+  geom_smooth(aes(group = 1), method = "loess", span = 0.25,
+              se = FALSE, colour = "blue", size = 0.9) +
+  geom_vline(xintercept = as.numeric(ymd("2015-04-12")),
+             colour = "red", size = 1.2, linetype = "dashed") +
+  annotate("text",
+           x = ymd("2015-04-12") + 300, y = 33,
+           label = "Arrest of\nFreddie Gray",
+           colour = "white", fontface = "bold", size = 4) +
   labs(title = "Homicides in Baltimore, MD",
        x = "Date", y = "Monthly homicides", fill = "") +
-  theme_bw() +
+  guides(fill = guide_legend(nrow = 1)) +
   theme(
-    panel.background = element_rect(fill = "grey20"),
-    panel.grid = element_line(color = "grey40"),
-    plot.background = element_rect(fill = "grey20"),
-    text = element_text(color = "white"),
-    axis.text = element_text(color = "white"),
-    legend.position = "bottom",
-    legend.background = element_rect(fill = "grey20"),
-    legend.text = element_text(color = "white")
-  )
+  legend.position = "bottom",
+  legend.box = "horizontal",
+  legend.background = element_rect(fill = "white", color = NA),
+  legend.key = element_rect(fill = "white", color = NA),
+  legend.text = element_text(color = "black"),
 
+  panel.background = element_rect(fill = "grey40"),
+  panel.grid.major = element_line(color = "grey70"),
+
+  plot.margin = margin(t = 10, r = 10, b = 80, l = 10)
+)
 ```
 
 
